@@ -14,3 +14,14 @@ server.post("/webhook", (req, res) => {
   res.sendStatus(200);
 });
 module.exports = server;
+router.get("/", async (req, res, next) => {
+  try {
+    let dataAx = await axios
+      .get(tfUrl, { headers })
+      .then((res) => {
+        return res;
+      })
+      .cath((err) => console.log(err));
+    res.status(200).json(dataAx);
+  } catch (error) {}
+});
