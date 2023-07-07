@@ -37,18 +37,19 @@ router.get("/pieRef", async (req, res, next) => {
     next(error);
   }
 });
+//calculationsa middleware olarak ekle
+// her biri için ayrı schema yarat databasede tut
+
 router.get("/countOfPeople", async (req, res, next) => {
   try {
     const customers = await Costemers.find().select({ createdAt: 1, _id: 0 });
     const obj = {};
     customers.map((item) => {
       const date = new Date(item.createdAt);
-
-      let fullDate = [
-        date.getDay(),
-        date.getMonth + 1,
-        date.getFullYear(),
-      ].join(".");
+      let day = date.getDay();
+      let month = date.getMonth + 1;
+      const year = date.getFullYear();
+      let fullDate = [day, month, year].join(".");
       if (obj.hasOwnProperty(fullDate)) {
         obj[fullDate] = obj[fullDate] + 1;
       } else {
@@ -61,4 +62,3 @@ router.get("/countOfPeople", async (req, res, next) => {
   }
 });
 module.exports = router;
-let date = new Date("2023-06-23T13:52:31.541+00:00");
