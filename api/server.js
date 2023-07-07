@@ -11,6 +11,7 @@ const titleRouter = require("./mongoDB/titles/titlesRouter");
 const sectorRouter = require("./mongoDB/sectors/sectorsRouter");
 const exceptionRouter = require("./mongoDB/exceptions/exceptionRouter");
 const calculationsRouter = require("./mongoDB/calculations/calculationsRouter");
+const chartData = require("./mongoDB/chartData/chartRouter");
 
 server.use(express.json());
 server.use(cors());
@@ -31,6 +32,7 @@ server.use("/titles", titleRouter);
 server.use("/sectors", sectorRouter);
 server.use("/exceptions", exceptionRouter);
 server.use("/calculations", calculationsRouter);
+server.use("/chart", chartData);
 
 server.get("/", (req, res) => {
   res.send(`<h1>Server is running on port ${PORT} </h1>`);
