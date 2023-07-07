@@ -70,4 +70,16 @@ router.delete("/:id", exceptionExistMW, async (req, res, next) => {
     next(error);
   }
 });
+
+//insert many
+router.post("/more", async (req, res, next) => {
+  try {
+    const exception = req.body.dataArr;
+    const createdexception = await Exceptions.create(exception);
+
+    res.json(createdexception);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
