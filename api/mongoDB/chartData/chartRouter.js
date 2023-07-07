@@ -33,6 +33,7 @@ router.get("/pieRef", async (req, res, next) => {
         obj[item.source] = +1;
       }
     });
+    res.status(200).json(obj);
   } catch (error) {
     next(error);
   }
