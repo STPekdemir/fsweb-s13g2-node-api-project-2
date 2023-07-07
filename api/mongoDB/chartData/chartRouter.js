@@ -47,7 +47,7 @@ router.get("/countOfPeople", async (req, res, next) => {
     customers.map((item) => {
       const date = new Date(item.createdAt);
       let day = date.getDay();
-      let month = date.getMonth + 1;
+      let month = date.getMonth() + 1;
       const year = date.getFullYear();
       let fullDate = [day, month, year].join(".");
       if (obj.hasOwnProperty(fullDate)) {
