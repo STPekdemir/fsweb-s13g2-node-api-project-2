@@ -6,10 +6,11 @@ router.get("/pie", async (req, res, next) => {
     let customers = await Costemers.find().select({ creditScore: 1, _id: 0 });
     let obj = {};
     customers.map((item) => {
-      if (obj.hasOwnProperty(item.creditScore)) {
-        obj[item.creditScore] = obj[item.creditScore] + 1;
+      let toFloor = Math.floor(item.creditScore);
+      if (obj.hasOwnProperty(toFloor)) {
+        obj[toFloor] = obj[toFloor] + 1;
       } else {
-        obj[item.creditScore] = 1;
+        obj[toFloor] = 1;
       }
     });
     res.json(obj);
