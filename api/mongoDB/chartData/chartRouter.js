@@ -65,6 +65,21 @@ router.get("/countOfPeople", async (req, res, next) => {
   }
 });
 
-// people send to the pipeDrive
+router.get("/pref", async (req, res, next) => {
+  try {
+    let data = await Costemers.find();
+    let obj = {};
+    for (let i = 0; i < data.length; i++) {
+      if (obj.hasOwnProperty(data[i].preference)) {
+        obj[data[i].preference] = obj[data[i].preference] + 1;
+      } else {
+        obj[data[i].preference] = 1;
+      }
+    }
+    res.status(200).json(obj);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

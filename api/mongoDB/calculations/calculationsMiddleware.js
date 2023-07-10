@@ -158,6 +158,37 @@ const constumerExist = async (req, res, next) => {
     next(error);
   }
 };
+/*const calculateMany = async (req, res, next) => {
+  try {
+    let data = req.body.data;
+
+    const promises = data.map(async (item) => {
+      const sectorScore = await Sectors.findOne({
+        sector: item.sector,
+      });
+      const titleScore = await Titles.findOne({ title: item.title });
+
+      const creditScore = calculateCreditScore(
+        sectorScore.score,
+        titleScore.score,
+        item.experience
+      );
+      const preference = getPreference(creditScore);
+      item.creditScore = creditScore;
+      item.preference = preference;
+
+      return item;
+    });
+
+    data = await Promise.all(promises);
+
+    req.body.data = data;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};*/
 
 module.exports = {
   verifySignatureMiddleware,
@@ -166,4 +197,5 @@ module.exports = {
   lookForExceptionMW,
   doesTitleAndSectorExistMW,
   constumerExist,
+  //calculateMany,
 };
