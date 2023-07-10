@@ -8,16 +8,17 @@ router.get("/pie", async (req, res, next) => {
 
     customers.map((item) => {
       if (typeof item.creditScore === "number") {
-        let floor = Math.floor(item.creditScore);
-        if (obj.hasOwnProperty(floor)) {
-          obj[floor] = obj[floor] + 1;
+        let floor = Math.floor(item.creditScore / 10) * 10;
+        const range = `${floor}-${floor + 9}`;
+        if (obj.hasOwnProperty(range)) {
+          obj[range]++;
         } else {
-          obj[floor] = 1;
+          obj[range] = 1;
         }
       }
     });
 
-    res.json(obj);
+    res.status(200).json(obj);
   } catch (error) {
     next(error);
   }
@@ -82,4 +83,20 @@ router.get("/pref", async (req, res, next) => {
   }
 });
 
+router.get("/sector", async (req, res, next) => {
+  try {
+    let data = await Costemers.find();
+    let obj = {};
+    for (let i = 0; i < data.length; i++) {
+      if (obj.hasOwnProperty(data[i].sector)) {
+        obj[data[i].sector] = obj[data[i].sector] + 1;
+      } else {
+        obj[data[i].sector] = 1;
+      }
+    }
+    res.status(200).json(obj);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
