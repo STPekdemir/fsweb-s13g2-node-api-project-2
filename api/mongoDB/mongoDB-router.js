@@ -61,6 +61,17 @@ router.delete("/:id", getConstumer, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+router.put("/:id", async (req, res, next) => {
+  try {
+    let data = req.body.data;
+    let updatedUser = await Constumer.findByIdAndUpdate(req.params.id, data, {
+      returnDocument: "after",
+    });
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
 
 async function getConstumer(req, res, next) {
   try {
