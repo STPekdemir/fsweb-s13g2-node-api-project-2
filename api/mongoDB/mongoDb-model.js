@@ -78,7 +78,7 @@ const constumerSchema = new mongoose.Schema(
     },
     exception: {
       type: mongoose.Schema.Types.Mixed,
-      default: {},
+      default: { none: "none" },
     },
     tf_id: {
       type: String,

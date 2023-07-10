@@ -158,7 +158,7 @@ const constumerExist = async (req, res, next) => {
     next(error);
   }
 };
-/*const calculateMany = async (req, res, next) => {
+const calculateMany = async (req, res, next) => {
   try {
     let data = req.body.data;
 
@@ -188,7 +188,28 @@ const constumerExist = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};*/
+};
+const lookForExceptionMWMany = async (req, res, next) => {
+  try {
+    let data = req.body.data;
+    const promises = data.map(async (item) => {
+      const exception = await Expception.findOne({
+        sector: item.sector,
+        title: item.title,
+      });
+      if (exception) {
+        item.preference = exception.preference;
+        item.exception = exception;
+      }
+      return item;
+    });
+    data = await Promise.all(promises);
+    req.body.data = data;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   verifySignatureMiddleware,
@@ -198,4 +219,5 @@ module.exports = {
   doesTitleAndSectorExistMW,
   constumerExist,
   //calculateMany,
+  //lookForExceptionMWMany,
 };

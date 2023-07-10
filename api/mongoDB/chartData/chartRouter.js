@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Costemers = require("../mongoDb-model");
-
+// credi scoru dağılımını döner
 router.get("/pie", async (req, res, next) => {
   try {
     let customers = await Costemers.find().select({ creditScore: 1, _id: 0 });
@@ -40,8 +40,7 @@ router.get("/pieRef", async (req, res, next) => {
     next(error);
   }
 });
-//calculationsa middleware olarak ekle
-// her biri için ayrı schema yarat databasede tut
+// hangi tarihte kaç kişi gelmiş onu döner
 
 router.get("/countOfPeople", async (req, res, next) => {
   try {
@@ -65,7 +64,7 @@ router.get("/countOfPeople", async (req, res, next) => {
     next(error);
   }
 });
-
+// hangi tercih sırasında kaç kişi var onu döner
 router.get("/pref", async (req, res, next) => {
   try {
     let data = await Costemers.find();
@@ -82,7 +81,7 @@ router.get("/pref", async (req, res, next) => {
     next(error);
   }
 });
-
+// hangi sectorde kaç kişi olduğunu döner
 router.get("/sector", async (req, res, next) => {
   try {
     let data = await Costemers.find();
@@ -92,6 +91,24 @@ router.get("/sector", async (req, res, next) => {
         obj[data[i].sector] = obj[data[i].sector] + 1;
       } else {
         obj[data[i].sector] = 1;
+      }
+    }
+    res.status(200).json(obj);
+  } catch (error) {
+    next(error);
+  }
+});
+// bir istisnaya uyan kaç kişi olduğunu döner
+router.get("/exc", async (req, res, next) => {
+  try {
+    let data = await Costemers.find({ exception: { $ne: { none: "none" } } });
+    let obj = {};
+    for (let i = 0; i < data.length; i++) {
+      if (obj.hasOwnProperty(`${data[i].sector}_${data[i].title}`)) {
+        obj[`${data[i].sector}_${data[i].title}`] =
+          obj[`${data[i].sector}_${data[i].title}`] + 1;
+      } else {
+        obj[`${data[i].sector}_${data[i].title}`] = 1;
       }
     }
     res.status(200).json(obj);
