@@ -22,6 +22,7 @@ router.get("/pie", async (req, res, next) => {
     next(error);
   }
 });
+// return how many people come from source x
 router.get("/pieRef", async (req, res, next) => {
   try {
     let customers = await Costemers.find().select({ source: 1, _id: 0 });
@@ -43,10 +44,11 @@ router.get("/pieRef", async (req, res, next) => {
 
 router.get("/countOfPeople", async (req, res, next) => {
   try {
-    const customers = await Costemers.find().select({ createdAt: 1, _id: 0 });
+    const customers = await Costemers.find().select({ created_at: 1, _id: 0 });
     const obj = {};
     customers.map((item) => {
-      const date = new Date(item.createdAt);
+      const date = new Date(item.created_at);
+      console.log(item);
       let day = date.getDay();
       let month = date.getMonth() + 1;
       const year = date.getFullYear();
@@ -62,4 +64,7 @@ router.get("/countOfPeople", async (req, res, next) => {
     next(error);
   }
 });
+
+// people send to the pipeDrive
+
 module.exports = router;

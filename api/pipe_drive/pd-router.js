@@ -1,18 +1,20 @@
 const router = require("express").Router();
 const axios = require("axios");
 const { pdTOKEN, PORT } = require("../../config/config");
+const Customer = require("../mongoDB/mongoDb-model");
 
 const baseUrlPD = "https://api.pipedrive.com/v1/leads";
 
-router.post("/", async (req, res, next) => {
+router.post("/:id", async (req, res, next) => {
   try {
-    const string = req.body.newObj.preference.toString();
-    const string2 = req.body.newObj.maas.toString();
-    const string3 = req.body.newObj.sektor.toString();
-    const string4 = req.body.newObj.tecrube.toString();
+    const customer = await Customer.findById(req.params.id);
+    const string = customer.preference.toString();
+    const string2 = customer.salary.toString();
+    const string3 = customer.sector.toString();
+    const string4 = customer.experience.toString();
     const objPD = {};
     objPD.person_id = 9;
-    const string5 = req.body.newObj.creditScore.toString();
+    const string5 = customer.creditScore.toString();
     objPD.title = "tolga";
     objPD["c1c15ee86d534c55724b7bc6a1f12a6d69c74fda"] = string2;
     objPD["1c52c46705707674e5262d93c51a1de67af016c9"] = string;
